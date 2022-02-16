@@ -3,8 +3,6 @@ Minimal compression library for sparse or contiguous 1D numpy boolean arrays.
 
 Only depends on numpy
 
-https://pypi.org/project/rp-annot/0.0.1/
-
 ## Install 
 The latest version is available via PyPI (https://pypi.org/project/rp-annot) 
  
