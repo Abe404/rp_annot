@@ -32,6 +32,7 @@ def reconstruct_from_diff_coords(diff_coords, length):
 
 
 def get_diff_array(original):
+    # https://stackoverflow.com/questions/32195525/how-to-np-roll-faster
     diff_array = np.bitwise_xor(original,  np.roll(original, 1))
     # We assume difference is from 0.
     # if 0 was at the start of original, then it should be at the start of the diff array
@@ -40,7 +41,6 @@ def get_diff_array(original):
 
 
 def get_diff_coords(original):
-    original = original.astype(np.bool)
     diff_array = get_diff_array(original)
     coords = np.where(diff_array)
     return coords[0]
