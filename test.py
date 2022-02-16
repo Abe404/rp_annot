@@ -76,5 +76,7 @@ def test_with_larger_payload():
 if __name__ == '__main__':
     test_get_diff_array()
     test_compress()
+
     if os.path.isfile('test_data/payload.npy'):
         test_with_larger_payload()
+    print('pass')
