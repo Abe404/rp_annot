@@ -1,4 +1,5 @@
 import numpy as np
+import os
 import time
 import zlib
 import rp_annot as rpa
