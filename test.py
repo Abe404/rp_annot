@@ -4,7 +4,7 @@ import time
 import zlib
 import rp_annot as rpa
 
-def test_compress():
+def test_reconstruct():
     for test_array in [
             [0, 0, 1, 1, 0, 0, 0, 0],
             [1, 0, 0, 0, 0, 0, 0, 0],
@@ -73,8 +73,17 @@ def test_with_larger_payload():
           round(len(z_compressed_data) / len(rp_annot_bytes), 2), 'smaller than zlib')
 
 
+def test_compress():
+    np_1d_bool_array = np.zeros(100000, dtype=bool)
+    np_1d_bool_array[20000:50000] = True
+    compressed = rpa.compress(np_1d_bool_array)
+    decompressed =  rpa.decompress(compressed, len(np_1d_bool_array))
+    assert np.array_equal(np_1d_bool_array, decompressed)
+
 if __name__ == '__main__':
+    
     test_get_diff_array()
+    test_reconstruct()
     test_compress()
 
     if os.path.isfile('test_data/payload.npy'):

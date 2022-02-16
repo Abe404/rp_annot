@@ -39,8 +39,16 @@ def get_diff_array(original):
     diff_array[0] = original[0]
     return diff_array
 
-
 def get_diff_coords(original):
     diff_array = get_diff_array(original)
     coords = np.where(diff_array)
     return coords[0]
+
+
+def decompress(compressed, length):
+    diff_coords = np.frombuffer(compressed, dtype='int64')
+    return reconstruct_from_diff_coords(diff_coords, length)
+
+
+def compress(original):
+    return get_diff_coords(original).tobytes()
