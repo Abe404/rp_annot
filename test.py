@@ -14,7 +14,7 @@ def test_compress():
             [0, 0, 0, 0, 0, 0, 0, 0, 1]
         ]:
         test_array = np.array(test_array).astype(bool)
-        assert np.array_equal(test_array, rpa.reconstruct_from_diff_coords(get_diff_coords(test_array), len(test_array)))
+        assert np.array_equal(test_array, rpa.reconstruct_from_diff_coords(rpa.get_diff_coords(test_array), len(test_array)))
 
 
 def test_get_diff_array():
@@ -36,12 +36,13 @@ def test_get_diff_array():
 def test_with_larger_payload():
     np_payload = np.load('test_data/payload.npy')
     np_payload = np_payload.astype(bool)
-    np_payload1d = np_payload.reshape(-1)
+    np_payload1d = np_payload.reshape(-1).astype(bool)
     payload_len = len(np_payload1d)
 
     t = time.time()
     for i in range(100):
         np_payload_diff_coords = rpa.get_diff_coords(np_payload1d)
+    print('rpa.get_diff_coords: total time for 100', time.time() - t)
     compress_time = (time.time() - t) / 100
 
     t = time.time()
@@ -49,10 +50,11 @@ def test_with_larger_payload():
         np_payload1d =  rpa.reconstruct_from_diff_coords(np_payload_diff_coords, payload_len)
     decompress_time = (time.time() - t) / 100
 
-    payload_bytes = np_payload.tobytes()
+    payload_bytes = np.load('test_data/payload.npy').tobytes()
     t = time.time()
     for i in range(100):
         z_compressed_data = zlib.compress(payload_bytes, 1)
+    print('zlib.compress: total time for 100', time.time() - t)
     z_compressed_time = (time.time() - t) / 100
 
     t = time.time()
@@ -60,12 +62,18 @@ def test_with_larger_payload():
         data = zlib.decompress(z_compressed_data)
     z_decompress_time = (time.time() - t) / 100
 
-    print('time to compress is ', z_compressed_time / compress_time, 'faster than zlib')
-    print('time to decompress is ', z_decompress_time / decompress_time, 'faster than zlib')
-    print('compressed size is ', len(z_compressed_data) / len(np_payload_diff_coords_bytes), 'smaller than zlib')
+    rp_annot_bytes = np_payload_diff_coords.tobytes()
+
+    print('time to compress is ', round(compress_time, 3), 'which is',
+          round(z_compressed_time / compress_time,  3), 'faster than zlib')
+    print('time to decompress is ', round(decompress_time, 9), 'which is', 
+          round(z_decompress_time / decompress_time, 3), 'faster than zlib')
+    print('compressed size is ', len(rp_annot_bytes), 'which is',
+          round(len(z_compressed_data) / len(rp_annot_bytes), 2), 'smaller than zlib')
 
 
 if __name__ == '__main__':
     test_get_diff_array()
     test_compress()
-    #test_with_larger_payload()
+    if os.path.isfile('test_data/payload.npy'):
+        test_with_larger_payload()
