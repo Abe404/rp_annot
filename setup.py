@@ -18,7 +18,7 @@ setup(
   download_url = 'https://github.com/Abe404/rp_annot/archive/refs/tags/0.0.3.tar.gz',
   keywords = ['numpy', 'compression', 'sparse', 'boolean'],
   install_requires=[
-      "numpy ==1.22.2",
+      "numpy >=1.18.2",
   ],
   classifiers=[
     'Intended Audience :: Developers',
