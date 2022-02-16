@@ -7,7 +7,7 @@ long_description = (current_dir / "README.md").read_text()
 setup(
   name = 'rp_annot',
   packages = ['rp_annot'],
-  version = '0.0.3',
+  version = '0.0.4',
   license = 'GPLv3', 
   description = 'Minimal compression library for sparse or contiguous 1D numpy boolean arrays',
   long_description_content_type='text/markdown',
@@ -15,7 +15,7 @@ setup(
   author = 'Abraham George Smith',
   author_email = 'abe@abesmith.co.uk',
   url = 'https://github.com/Abe404/rp_annot',
-  download_url = 'https://github.com/Abe404/rp_annot/archive/refs/tags/0.0.3.tar.gz',
+  download_url = 'https://github.com/Abe404/rp_annot/archive/refs/tags/0.0.4.tar.gz',
   keywords = ['numpy', 'compression', 'sparse', 'boolean'],
   install_requires=[
       "numpy >=1.18.2",
